@@ -29,7 +29,6 @@ std::vector<Process> ProcessList::getRunningProcesses()
 {
 	DWORD aProcesses[1024], cbNeeded, cProcesses;
 	PVOID pebAddress;
-	NTSTATUS Status;
 	PVOID rtlUserProcParamsAddress;
 	UNICODE_STRING commandLine;
 	PROCESS_BASIC_INFORMATION pbi;
