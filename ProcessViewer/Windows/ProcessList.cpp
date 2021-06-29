@@ -29,7 +29,6 @@ std::vector<Process> ProcessList::getRunningProcesses()
 {
 	DWORD aProcesses[1024], cbNeeded, cProcesses;
 	PVOID pebAddress;
-	NTSTATUS Status;
 	PVOID rtlUserProcParamsAddress;
 	UNICODE_STRING commandLine;
 	PROCESS_BASIC_INFORMATION pbi;
@@ -57,7 +56,7 @@ std::vector<Process> ProcessList::getRunningProcesses()
 			TCHAR szProcessName[MAX_PATH] = TEXT("<unknown>");
 			HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, aProcesses[i]);
 
-			Status = NtQueryInformationProcess(hProcess, ProcessBasicInformation, &pbi, sizeof(pbi), 0);
+			NtQueryInformationProcess(hProcess, ProcessBasicInformation, &pbi, sizeof(pbi), 0);
 
 			if (NULL != hProcess)
 			{
