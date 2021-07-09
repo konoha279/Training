@@ -20,7 +20,6 @@ int main(void)
 
 	// Send something to this process's stdout using printf.
 	printf("\n ** This is a message from the child process. ** \n");
-
 	// This simple algorithm uses the existence of the pipes to control execution.
 	// It relies on the pipe buffers to ensure that no data is lost.
 	// Larger applications would use more advanced process control.
