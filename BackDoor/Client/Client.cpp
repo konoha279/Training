@@ -51,6 +51,11 @@ int Client::Send(char * sendbuf)
 	return send(ConnectSocket, sendbuf, (int)strlen(sendbuf), 0);
 }
 
+int Client::Send(std::string sendbuf)
+{
+	return send(ConnectSocket, sendbuf.c_str(), (DWORD) sendbuf.length(), 0);
+}
+
 int Client::Shutdown()
 {
 	return shutdown(ConnectSocket, SD_SEND);
@@ -59,6 +64,15 @@ int Client::Shutdown()
 int Client::receive(char * text)
 {
 	return recv(ConnectSocket, text, DEFAULT_BUFLEN, 0);
+}
+
+int Client::receive(std::string & text)
+{
+	char *tmpC;
+	if (!recv(ConnectSocket, tmpC, DEFAULT_BUFLEN, 0))
+		return 0;
+	text = tmpC;
+	return 1;
 }
 
 bool Client::isConnected()

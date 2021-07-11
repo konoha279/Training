@@ -1,6 +1,6 @@
 #include "cmd.h"
 
-int cmd::CreateProcess()
+int Cmd::CreateProcess()
 {
 	sats.nLength = sizeof(sats);
 	sats.bInheritHandle = TRUE;
@@ -26,7 +26,7 @@ int cmd::CreateProcess()
 	return 1;
 }
 
-bool cmd::isCmdStillRunning()
+bool Cmd::isCmdStillRunning()
 {
 	DWORD excode;
 	if (!isRunning)
@@ -37,7 +37,7 @@ bool cmd::isCmdStillRunning()
 	return isRunning;
 }
 
-int cmd::readCmd(std::string &result)
+int Cmd::readCmd(std::string &result)
 {
 	bool ret = false;
 	if (!isRunning)
@@ -67,7 +67,7 @@ int cmd::readCmd(std::string &result)
 	return 1;
 }
 
-int cmd::writeCMD(char * data)
+int Cmd::writeCMD(char * data)
 {
 	DWORD writ;
 	if (!WriteFile(pipin_w, data, strlen(data), &writ, NULL) || !isRunning)
@@ -79,7 +79,7 @@ int cmd::writeCMD(char * data)
 	}
 }
 
-bool cmd::KillCurrentCmdProcess()
+bool Cmd::KillCurrentCmdProcess()
 {
 	if (isRunning)
 		TerminateProcess(pi.hProcess, 0);
@@ -87,7 +87,7 @@ bool cmd::KillCurrentCmdProcess()
 	return true;
 }
 
-void cmd::clean()
+void Cmd::clean()
 {
 	//clean up any unfinished business
 	if (pipin_w != NULL) CloseHandle(pipin_w);

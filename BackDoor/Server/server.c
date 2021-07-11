@@ -62,7 +62,15 @@ listen:
 	struct in_addr ipAddr = pV4Addr->sin_addr;
 	inet_ntop( AF_INET, &ipAddr, ipClient, INET_ADDRSTRLEN );
 	
-	printf("========== Client Adress = %s ==========\n",ipClient);
+	printf("\n========== Client Adress = %s ==========\n",ipClient);
+
+	do
+	{
+		memset(buffer, 0, sizeof(buffer));
+		read( new_socket , buffer, sizeof(buffer));
+		printf("%s",buffer );
+	}
+	while (strlen(buffer) >= sizeof(buffer));
 
 	while (1)
 	{

@@ -4,7 +4,7 @@
 #include <iostream>
 
 #define MAX_BUFFER_SIZE 512
-class cmd
+class Cmd
 {
 private:
 	STARTUPINFO sti = { 0 };

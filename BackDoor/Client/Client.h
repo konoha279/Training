@@ -25,8 +25,10 @@ private:
 public:
 	void Connect(char *ip, PCSTR PORT);
 	int Send(char *sendbuf);
+	int Send(std::string sendbuf);
 	int Shutdown();
 	int receive(char *text);
+	int receive(std::string &text);
 	bool isConnected();
 };
 

