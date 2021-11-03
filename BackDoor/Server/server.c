@@ -76,6 +76,11 @@ listen:
 	{
 		memset(msg, 0, sizeof(msg));
 		fgets(msg, 1024, stdin);
+		if (!strncmp(msg, "exit", 4))
+		{
+			send(new_socket , msg , strlen(msg) , 0 );
+			break;
+		}			
 		send(new_socket , msg , strlen(msg) , 0 );
 
 		do
